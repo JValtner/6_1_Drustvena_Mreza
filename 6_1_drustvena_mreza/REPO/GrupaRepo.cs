@@ -4,7 +4,7 @@ namespace _6_1_drustvena_mreza.REPO
 {
     public class GrupaRepo
     {
-        private const string putanjaGrupe = "../../../DATA/grupe.csv";
+        private const string putanjaGrupe = "DATA/grupe.csv";
         public static Dictionary<int, Grupa> grupaRepo { get; set; }
 
         public GrupaRepo()

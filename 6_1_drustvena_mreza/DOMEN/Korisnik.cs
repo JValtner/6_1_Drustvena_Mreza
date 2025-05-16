@@ -1,4 +1,5 @@
-﻿namespace _6_1_drustvena_mreza.DOMEN
+﻿using System;
+namespace _6_1_drustvena_mreza.DOMEN
 {
     public class Korisnik
     {
