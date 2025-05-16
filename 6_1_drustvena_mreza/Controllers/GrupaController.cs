@@ -12,7 +12,6 @@ namespace _6_1_drustvena_mreza.Controllers
     {
         private GrupaRepo gruparepository = new GrupaRepo();
 
-
         // Get api/groups
         [HttpGet]
         public ActionResult<List<Grupa>> GetAll()
@@ -21,34 +20,31 @@ namespace _6_1_drustvena_mreza.Controllers
             return Ok(grupe);
         }
 
-        // Get api/group/{id}
-        [HttpGet("{id}")]
-        public ActionResult<Grupa> GetById(int id)
-        {
-            if(!GrupaRepo.grupaRepo.ContainsKey(id))
-            {
-                return NotFound();
-            }
-
-            return Ok(GrupaRepo.grupaRepo[id]);
-        }
-
         // POST api/groups
         [HttpPost]
         public ActionResult<Grupa> Create([FromBody] Grupa newGrupa)
         {
-            if (string.IsNullOrWhiteSpace(newGrupa.ime))
+            if (string.IsNullOrWhiteSpace(newGrupa.Ime))
             {
                 return BadRequest();
             }
 
-            newGrupa.id = SracunajNoviId(GrupaRepo.grupaRepo.Keys.ToList());
-            GrupaRepo.grupaRepo[newGrupa.id] = newGrupa;
+            if (newGrupa.Id != 0 && GrupaRepo.grupaRepo.ContainsKey(newGrupa.Id))
+            {
+                return BadRequest("ID already exists");
+            }
+
+            if (newGrupa.Id == 0)
+            {
+                newGrupa.Id = SracunajNoviId(GrupaRepo.grupaRepo.Keys.ToList());
+            }
+
+            GrupaRepo.grupaRepo[newGrupa.Id] = newGrupa;
             gruparepository.Sacuvaj();
 
             return Ok(newGrupa);
         }
-        
+
         private int SracunajNoviId(List<int> identifikatori)
         {
             int maxId = 0;
@@ -61,6 +57,20 @@ namespace _6_1_drustvena_mreza.Controllers
             }
 
             return maxId + 1;
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            if (!GrupaRepo.grupaRepo.ContainsKey(id))
+            {
+                return NotFound();
+            }
+
+            GrupaRepo.grupaRepo.Remove(id);
+            gruparepository.Sacuvaj();
+
+            return NoContent();
         }
     }
 }

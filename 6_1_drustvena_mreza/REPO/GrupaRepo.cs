@@ -42,7 +42,7 @@ namespace _6_1_drustvena_mreza.REPO
                 foreach (KeyValuePair<int, Grupa> entryValue in grupaRepo)
                 {
                     Grupa g = entryValue.Value;
-                    sadrzaj.Add($"{g.id},{g.ime},{g.datumOsnivanja.ToString("yyyy-MM-dd")}");
+                    sadrzaj.Add($"{g.Id},{g.Ime},{g.DatumOsnivanja.ToString("yyyy-MM-dd")}");
                 }
                 File.WriteAllLines(putanjaGrupe, sadrzaj);
             }

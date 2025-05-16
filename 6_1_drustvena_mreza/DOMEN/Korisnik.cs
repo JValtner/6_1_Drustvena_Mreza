@@ -1,22 +1,22 @@
-﻿namespace _6_1_drustvena_mreza.DOMEN
+﻿using System;
+namespace _6_1_drustvena_mreza.DOMEN
 {
     public class Korisnik
     {
-        public int id;
-        public string korisnickoIme;
-        public string ime;
-        public string prezime;
-        public DateTime datumRodjenja;
-        public List<Grupa> grupeKorisnika = new List<Grupa>();
+        public int Id { get; set; }
+        public string KorisnickoIme { get; set; }
+        public string Ime { get; set; }
+        public string Prezime { get; set; }
+        public DateTime DatumRodjenja { get; set; }
+        public List<Grupa> GrupeKorisnika = new List<Grupa>();
 
-        public Korisnik (int id, string korisnickoIme, string ime, string prezime, DateTime datumRodjenja, List<Grupa>grupeKorisnika)
+        public Korisnik (int id, string korisnickoIme, string ime, string prezime, DateTime datumRodjenja)
         {
-            this.id = id;
-            this.korisnickoIme = korisnickoIme;
-            this.ime = ime;
-            this.prezime = prezime;
-            this.datumRodjenja = datumRodjenja;
-            this.grupeKorisnika = grupeKorisnika;
+            this.Id = id;
+            this.KorisnickoIme = korisnickoIme;
+            this.Ime = ime;
+            this.Prezime = prezime;
+            this.DatumRodjenja = datumRodjenja;
         }
     }
 }
