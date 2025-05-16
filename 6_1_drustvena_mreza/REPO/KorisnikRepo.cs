@@ -8,7 +8,9 @@ namespace _6_1_drustvena_mreza.REPO
     {
         private const string putanjaKorisnik = "DATA/korisnici.csv";
         private const string putanjaClanstva = "DATA/clanstva.csv";
+        private const string putanjaGrupe = "DATA/grupe.csv";
         public static Dictionary<int, Korisnik> korisnikRepo { get; set; }
+        public static Dictionary<int, Grupa> grupaRepo { get; set; }
 
         public KorisnikRepo()
         {
@@ -21,6 +23,18 @@ namespace _6_1_drustvena_mreza.REPO
         {
             try
             {
+                //Procitaj grupe
+                grupaRepo = new Dictionary<int, Grupa>();
+                string[] sadrzajGrupe = File.ReadAllLines(putanjaGrupe);
+                foreach (string linija in sadrzajGrupe)
+                {
+                    string[] delovi = linija.Split(",");
+                    int kljuc = int.Parse(delovi[0]);
+                    Grupa g = new Grupa(int.Parse(delovi[0]), delovi[1], DateTime.ParseExact(delovi[2], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+
+                    grupaRepo[kljuc] = g;
+                }
+                //Procitaj Korisnike
                 korisnikRepo = new Dictionary<int, Korisnik>();
                 string[] sadrzaj = File.ReadAllLines(putanjaKorisnik);
                 string[] veze = File.ReadAllLines(putanjaClanstva);
@@ -30,8 +44,25 @@ namespace _6_1_drustvena_mreza.REPO
                     int kljuc = int.Parse(delovi[0]);
                     List<Grupa> grupeKorisnika = new List<Grupa>();
                     Korisnik k = new Korisnik(int.Parse(delovi[0]), delovi[1], delovi[2], delovi[3], DateTime.ParseExact(delovi[4], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), grupeKorisnika);
+                    foreach (string veza in veze)
+                    {
+                        string[] deloviVeze = veza.Split(",");
+                        int idKorisnik = int.Parse(deloviVeze[0]);
+                        int idGrupe = int.Parse(deloviVeze[1]);
+                        if (k.Id.Equals(idKorisnik))
+                        {
+                            Grupa g = null;
+                            foreach (Grupa grupa in grupaRepo.Values)
+                            {
+                                if (grupa.Id == idGrupe)
+                                {
+                                    g = grupa;
+                                }
+                            }
+                            k.GrupeKorisnika.Add(g);
+                        }
+                    }
 
-                    
                     korisnikRepo[kljuc] = k;
                 }
             }
@@ -48,7 +79,7 @@ namespace _6_1_drustvena_mreza.REPO
                 foreach (KeyValuePair<int, Korisnik> entryValue in korisnikRepo)
                 {
                     Korisnik k = entryValue.Value;
-                    sadrzaj.Add($"{k.id},{k.korisnickoIme},{k.ime},{k.prezime},{k.datumRodjenja.ToString("yyyy-MM-dd")}");
+                    sadrzaj.Add($"{k.Id},{k.KorisnickoIme},{k.Ime},{k.Prezime},{k.DatumRodjenja.ToString("yyyy-MM-dd")}");
                 }
                 File.WriteAllLines(putanjaKorisnik, sadrzaj);
             }
