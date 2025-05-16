@@ -24,6 +24,7 @@ namespace _6_1_drustvena_mreza.REPO
             try
             {
                 //Procitaj grupe
+
                 grupaRepo = new Dictionary<int, Grupa>();
                 string[] sadrzajGrupe = File.ReadAllLines(putanjaGrupe);
                 foreach (string linija in sadrzajGrupe)
@@ -43,8 +44,9 @@ namespace _6_1_drustvena_mreza.REPO
                     string[] delovi = linija.Split(",");
                     int kljuc = int.Parse(delovi[0]);
                     List<Grupa> grupeKorisnika = new List<Grupa>();
-                    Korisnik k = new Korisnik(int.Parse(delovi[0]), delovi[1], delovi[2], delovi[3], DateTime.ParseExact(delovi[4], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture), grupeKorisnika);
+                    Korisnik k = new Korisnik(int.Parse(delovi[0]), delovi[1], delovi[2], delovi[3], DateTime.ParseExact(delovi[4], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
                     foreach (string veza in veze)
+                    //Dodeli grupe korisnicima
                     {
                         string[] deloviVeze = veza.Split(",");
                         int idKorisnik = int.Parse(deloviVeze[0]);

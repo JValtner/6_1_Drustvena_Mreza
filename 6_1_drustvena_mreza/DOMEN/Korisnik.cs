@@ -10,14 +10,13 @@ namespace _6_1_drustvena_mreza.DOMEN
         public DateTime DatumRodjenja { get; set; }
         public List<Grupa> GrupeKorisnika = new List<Grupa>();
 
-        public Korisnik (int id, string korisnickoIme, string ime, string prezime, DateTime datumRodjenja, List<Grupa>grupeKorisnika)
+        public Korisnik (int id, string korisnickoIme, string ime, string prezime, DateTime datumRodjenja)
         {
             this.Id = id;
             this.KorisnickoIme = korisnickoIme;
             this.Ime = ime;
             this.Prezime = prezime;
             this.DatumRodjenja = datumRodjenja;
-            this.GrupeKorisnika = grupeKorisnika;
         }
     }
 }
