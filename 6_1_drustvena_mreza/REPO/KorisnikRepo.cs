@@ -90,5 +90,23 @@ namespace _6_1_drustvena_mreza.REPO
                 Console.WriteLine(e.Message);
             }
         }
+        public Korisnik NadjiKorisnika(int korisnikId, int grupaId)
+        {
+
+            foreach (Korisnik korisnik in KorisnikRepo.korisnikRepo.Values)
+            {
+                if (korisnik.Id == korisnikId)
+                {
+                    foreach (Grupa grupa in korisnik.GrupeKorisnika)
+                    {
+                        if (grupa.Id == grupaId)
+                        {
+                            return korisnik;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

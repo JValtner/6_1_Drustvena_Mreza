@@ -90,7 +90,6 @@ namespace _6_1_Drustvena_Mreza.Controllers
                     maxId = id;
                 }
             }
-
             return maxId + 1;
         }
     }
