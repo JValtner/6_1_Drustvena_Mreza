@@ -101,6 +101,7 @@ namespace _6_1_drustvena_mreza.REPO
                     {
                         if (grupa.Id == grupaId)
                         {
+
                             return korisnik;
                         }
                     }
