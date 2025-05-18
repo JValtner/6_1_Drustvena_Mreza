@@ -10,7 +10,7 @@ namespace _6_1_drustvena_mreza.REPO
         private const string putanjaClanstva = "DATA/clanstva.csv";
         private const string putanjaGrupe = "DATA/grupe.csv";
         public static Dictionary<int, Korisnik> korisnikRepo { get; set; }
-        public static Dictionary<int, Grupa> grupaRepo { get; set; }
+        public static Dictionary<int, Grupa> grupaRepo { get; set; }       
 
         public KorisnikRepo()
         {
