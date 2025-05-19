@@ -10,7 +10,7 @@ namespace _6_1_drustvena_mreza.Controllers
     [ApiController]
     public class GrupaController : ControllerBase
     {
-        private GrupaRepo gruparepository = new GrupaRepo();
+        private GrupaRepo grupaRepo = new GrupaRepo();
 
         // Get api/groups
         [HttpGet]
@@ -24,25 +24,28 @@ namespace _6_1_drustvena_mreza.Controllers
         [HttpPost]
         public ActionResult<Grupa> Create([FromBody] Grupa newGrupa)
         {
-            if (string.IsNullOrWhiteSpace(newGrupa.Ime))
+            if (string.IsNullOrWhiteSpace(newGrupa.Ime) || string.IsNullOrWhiteSpace(newGrupa.DatumOsnivanja.ToString("yyyy-MM-dd")))
             {
                 return BadRequest();
             }
-
-            if (newGrupa.Id != 0 && GrupaRepo.grupaRepo.ContainsKey(newGrupa.Id))
-            {
-                return BadRequest("ID already exists");
-            }
-
-            if (newGrupa.Id == 0)
-            {
-                newGrupa.Id = SracunajNoviId(GrupaRepo.grupaRepo.Keys.ToList());
-            }
-
+            newGrupa.Id = SracunajNoviId(GrupaRepo.grupaRepo.Keys.ToList());
             GrupaRepo.grupaRepo[newGrupa.Id] = newGrupa;
-            gruparepository.Sacuvaj();
+            grupaRepo.Sacuvaj();
 
             return Ok(newGrupa);
+        }
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            if (!GrupaRepo.grupaRepo.ContainsKey(id))
+            {
+                return NotFound();
+            }
+
+            GrupaRepo.grupaRepo.Remove(id);
+            grupaRepo.Sacuvaj();
+
+            return NoContent();
         }
 
         private int SracunajNoviId(List<int> identifikatori)
@@ -57,20 +60,6 @@ namespace _6_1_drustvena_mreza.Controllers
             }
 
             return maxId + 1;
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
-            if (!GrupaRepo.grupaRepo.ContainsKey(id))
-            {
-                return NotFound();
-            }
-
-            GrupaRepo.grupaRepo.Remove(id);
-            gruparepository.Sacuvaj();
-
-            return NoContent();
-        }
+        } 
     }
 }

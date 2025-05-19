@@ -111,5 +111,16 @@ namespace _6_1_drustvena_mreza.REPO
             }
             return null;
         }
+        public Korisnik NadjiKorisnikaId(int korisnikId)
+        {
+            foreach (Korisnik korisnik in KorisnikRepo.korisnikRepo.Values)
+            {
+                if (korisnik.Id == korisnikId)
+                {
+                    return korisnik;
+                }
+            }
+            return null;
+        }
     }
 }

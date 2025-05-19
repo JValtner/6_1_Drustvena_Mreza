@@ -51,5 +51,16 @@ namespace _6_1_drustvena_mreza.REPO
                 Console.WriteLine(e.Message);
             }
         }
+        public Grupa NadjiGrupu(int grupaId)
+        {
+            foreach (Grupa grupa in GrupaRepo.grupaRepo.Values)
+            {
+                if (grupa.Id == grupaId)
+                {
+                    return grupa;
+                }
+            }
+            return null;
+        }
     }
 }

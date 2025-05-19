@@ -11,68 +11,72 @@ namespace _6_1_Drustvena_Mreza.Controllers
     public class KorisnikGrupeController : ControllerBase
     {
         private KorisnikRepo korisnikRepo = new KorisnikRepo();
-        private GrupaRepo grupakRepo = new GrupaRepo();
-        private ClanstvoRepo clanstvoRepo = new ClanstvoRepo();
+        private GrupaRepo grupaRepo = new GrupaRepo();
 
 
         [HttpGet("{grupaId}")]
         public ActionResult<Korisnik> NadjiKorisnikaGrupeId(int korisnikId, int grupaId)
         {
             Korisnik korisnik = korisnikRepo.NadjiKorisnika(korisnikId, grupaId);
-            if (korisnik ==null)
+            if (korisnik ==null || !KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
             {
                 return NotFound("Takav korisnik ne postoji");
             }
+            if (!GrupaRepo.grupaRepo.ContainsKey(grupaId))
+            {
+                return NotFound("Takva grupa ne postoji");
+            }
+            
             return Ok(korisnik);
         }
 
         [HttpPost("{groupId}")]
-        public ActionResult<List<Clanstvo>> AddUserToGroup(int korisnikId, int groupId)
+        public ActionResult<Korisnik> AddUserToGroup(int korisnikId, int groupId)
         {
-            if (!KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
-            {
-                return NotFound($"User {korisnikId} not found");
-            }
+            Korisnik korisnik = korisnikRepo.NadjiKorisnikaId(korisnikId);
+            Grupa grupa = grupaRepo.NadjiGrupu(groupId);
 
+            if (korisnik == null || !KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
+            {
+                return NotFound("Takav korisnik ne postoji");
+            }
             if (!GrupaRepo.grupaRepo.ContainsKey(groupId))
             {
-                return NotFound($"Group {groupId} not found");
+                return NotFound("Takva grupa ne postoji");
             }
-                
-
-            if (ClanstvoRepo.clanstvoRepo.Values.Any(c => c.KorisnikId == korisnikId && c.GrupaId == groupId))
+            if (korisnik.GrupeKorisnika.Contains(grupa))
             {
-                return BadRequest($"User {korisnikId} already has that role {groupId} assigned to him");
+                return NotFound("Korisnik vec pripada grupi");
             }
 
-            Clanstvo noviClan = new Clanstvo(korisnikId, groupId);
-            clanstvoRepo.AddMembership(noviClan);
-            
+            korisnik.GrupeKorisnika.Add(grupa);
+            korisnikRepo.Sacuvaj();
 
-
-            return Ok("test");
+            return Ok(korisnik);
         }
 
         [HttpDelete("{groupId}")]
         public ActionResult RemoveUserFromGroup(int korisnikId, int groupId)
         {
-            
-            if (!KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
-            {
-                return NotFound("User not found!");
-            }
 
+            Korisnik korisnik = korisnikRepo.NadjiKorisnikaId(korisnikId);
+            Grupa grupa = grupaRepo.NadjiGrupu(groupId);
+
+            if (korisnik == null || !KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
+            {
+                return NotFound("Takav korisnik ne postoji");
+            }
             if (!GrupaRepo.grupaRepo.ContainsKey(groupId))
             {
-                return NotFound("Group not found!");
+                return NotFound("Takva grupa ne postoji");
             }
-
-            if(!ClanstvoRepo.clanstvoRepo.Values.Any(c => c.KorisnikId == korisnikId && c.GrupaId == groupId))
+            if (!korisnik.GrupeKorisnika.Contains(grupa))
             {
-                return NotFound("Korisnik nema grupu");
+                return NotFound("Korisnik nije u grupi");
             }
 
-            clanstvoRepo.RemoveUserFromGroup(korisnikId, groupId);
+            korisnik.GrupeKorisnika.Remove(grupa);
+            korisnikRepo.Sacuvaj();
 
             return Ok($"User {korisnikId} was removed from group {groupId}");         
         }
