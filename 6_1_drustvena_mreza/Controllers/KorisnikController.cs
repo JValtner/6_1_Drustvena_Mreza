@@ -10,6 +10,7 @@ namespace _6_1_Drustvena_Mreza.Controllers
     public class KorisnikController : ControllerBase
     {
         private KorisnikRepo korisnikRepo = new KorisnikRepo();
+
         [HttpGet]
         public ActionResult<List<Korisnik>> GetAll()
         {

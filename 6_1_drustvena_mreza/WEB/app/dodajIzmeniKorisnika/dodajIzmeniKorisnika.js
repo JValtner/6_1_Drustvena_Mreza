@@ -18,9 +18,11 @@ class Grupa{
     }
 }
 
+//postavi prazne metode i url
 let method=``
 let url=``
 
+//formatiraj pravilan datum za formu
 function formatDate(isoDateString) {
   const date = new Date(isoDateString)
 
@@ -68,7 +70,6 @@ if (!id) { // Ako ne postoji parametar upita, forma je prazna za unos novog kori
         }
         })
     }
-
 }
     
 

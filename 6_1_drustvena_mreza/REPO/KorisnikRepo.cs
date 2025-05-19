@@ -9,13 +9,13 @@ namespace _6_1_drustvena_mreza.REPO
         private const string putanjaKorisnik = "DATA/korisnici.csv";
         private const string putanjaClanstva = "DATA/clanstva.csv";
         private const string putanjaGrupe = "DATA/grupe.csv";
-        public static Dictionary<int, Korisnik> korisnikRepo { get; set; }
-        public static Dictionary<int, Grupa> grupaRepo { get; set; }       
+        public static Dictionary<int, Korisnik> korisnikRepo { get; set; } 
 
         public KorisnikRepo()
         {
             if (korisnikRepo == null)
             {
+                new GrupaRepo();
                 Procitaj();
             }
         }
@@ -25,16 +25,6 @@ namespace _6_1_drustvena_mreza.REPO
             {
                 //Procitaj grupe
 
-                grupaRepo = new Dictionary<int, Grupa>();
-                string[] sadrzajGrupe = File.ReadAllLines(putanjaGrupe);
-                foreach (string linija in sadrzajGrupe)
-                {
-                    string[] delovi = linija.Split(",");
-                    int kljuc = int.Parse(delovi[0]);
-                    Grupa g = new Grupa(int.Parse(delovi[0]), delovi[1], DateTime.ParseExact(delovi[2], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
-
-                    grupaRepo[kljuc] = g;
-                }
                 //Procitaj Korisnike
                 korisnikRepo = new Dictionary<int, Korisnik>();
                 string[] sadrzaj = File.ReadAllLines(putanjaKorisnik);
@@ -54,7 +44,7 @@ namespace _6_1_drustvena_mreza.REPO
                         if (k.Id.Equals(idKorisnik))
                         {
                             Grupa g = null;
-                            foreach (Grupa grupa in grupaRepo.Values)
+                            foreach (Grupa grupa in GrupaRepo.grupaRepo.Values)
                             {
                                 if (grupa.Id == idGrupe)
                                 {
@@ -77,19 +67,31 @@ namespace _6_1_drustvena_mreza.REPO
         {
             try
             {
-                List<string> sadrzaj = new List<string>();
-                foreach (KeyValuePair<int, Korisnik> entryValue in korisnikRepo)
+                // Save korisnici.csv
+                List<string> sadrzajKorisnici = new List<string>();
+                foreach (Korisnik k in korisnikRepo.Values)
                 {
-                    Korisnik k = entryValue.Value;
-                    sadrzaj.Add($"{k.Id},{k.KorisnickoIme},{k.Ime},{k.Prezime},{k.DatumRodjenja.ToString("yyyy-MM-dd")}");
+                    sadrzajKorisnici.Add($"{k.Id},{k.KorisnickoIme},{k.Ime},{k.Prezime},{k.DatumRodjenja:yyyy-MM-dd}");
                 }
-                File.WriteAllLines(putanjaKorisnik, sadrzaj);
+                File.WriteAllLines(putanjaKorisnik, sadrzajKorisnici);
+
+                // Save clanstva.csv
+                List<string> sadrzajClanstva = new List<string>();
+                foreach (Korisnik k in korisnikRepo.Values)
+                {
+                    foreach (Grupa g in k.GrupeKorisnika)
+                    {
+                        sadrzajClanstva.Add($"{k.Id},{g.Id}");
+                    }
+                }
+                File.WriteAllLines(putanjaClanstva, sadrzajClanstva);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
+
         public Korisnik NadjiKorisnika(int korisnikId, int grupaId)
         {
 
