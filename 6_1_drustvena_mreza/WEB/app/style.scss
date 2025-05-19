@@ -6,6 +6,9 @@ $background-color: #f4f4f9;
 $text-color: #333;
 $description-text: #555;
 $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+$table-row-color: rgb(213, 239, 212);
+$table-h-color: rgb(194, 241, 193);
+$table-row-color-hover: rgb(179, 236, 177);
 
 * {
     margin: 0;
@@ -65,6 +68,7 @@ body {
     h2 {
         font-size: 32px;
         color: $text-color;
+        padding: 10px;
     }
 
     p {
@@ -76,4 +80,14 @@ body {
         margin-right: auto;
         line-height: 1.6;
     }
+    hr{
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+}
+.main-content{
+    display: block;
+    width:60%;
+    margin: auto;
+    text-align: center;
 }
