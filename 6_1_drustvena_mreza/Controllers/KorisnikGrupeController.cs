@@ -14,22 +14,7 @@ namespace _6_1_Drustvena_Mreza.Controllers
         private GrupaRepo grupaRepo = new GrupaRepo();
 
 
-        [HttpGet("{grupaId}")]
-        public ActionResult<Korisnik> NadjiKorisnikaGrupeId(int korisnikId, int grupaId)
-        {
-            Korisnik korisnik = korisnikRepo.NadjiKorisnika(korisnikId, grupaId);
-            if (korisnik ==null || !KorisnikRepo.korisnikRepo.ContainsKey(korisnikId))
-            {
-                return NotFound("Takav korisnik ne postoji");
-            }
-            if (!GrupaRepo.grupaRepo.ContainsKey(grupaId))
-            {
-                return NotFound("Takva grupa ne postoji");
-            }
-            
-            return Ok(korisnik);
-        }
-
+        
         [HttpPost("{groupId}")]
         public ActionResult<Korisnik> AddUserToGroup(int korisnikId, int groupId)
         {

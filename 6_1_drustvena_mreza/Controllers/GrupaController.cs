@@ -11,6 +11,7 @@ namespace _6_1_drustvena_mreza.Controllers
     public class GrupaController : ControllerBase
     {
         private GrupaRepo grupaRepo = new GrupaRepo();
+        private KorisnikRepo korisnikRepo = new KorisnikRepo();
 
         // Get api/groups
         [HttpGet]
@@ -19,6 +20,18 @@ namespace _6_1_drustvena_mreza.Controllers
             List<Grupa> grupe = GrupaRepo.grupaRepo.Values.ToList();
             return Ok(grupe);
         }
+        [HttpGet("{grupaId}")]
+        public ActionResult<Korisnik> NadjiKorisnikaGrupeId(int grupaId)
+        {
+            if (!GrupaRepo.grupaRepo.ContainsKey(grupaId))
+            {
+                return NotFound("Takva grupa ne postoji");
+            }
+            List<Korisnik> listakorisnikaGrupe = korisnikRepo.NadjiKorisnike(grupaId);
+
+            return Ok(listakorisnikaGrupe);
+        }
+
 
         // POST api/groups
         [HttpPost]

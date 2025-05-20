@@ -10,18 +10,12 @@ class Korisnik {
         this.grupeKorisnika = grupeKorisnika
     }
 }
-class Grupa{
-    constructor(id, ime,datumOsnivanja){
-        this.id = id
-        this.ime = ime
-        this.datumOsnivanja = datumOsnivanja
-    }
-}
+
 
 //postavi prazne metode i url
 let method=``
 let url=``
-
+let success = ""
 //formatiraj pravilan datum za formu
 function formatDate(isoDateString) {
   const date = new Date(isoDateString)
@@ -41,9 +35,11 @@ function get() {
 if (!id) { // Ako ne postoji parametar upita, forma je prazna za unos novog korisnika i POST
     method = `POST`
     url = `http://localhost:14117/api/korisnik`
+    success = "upis"
 }else{//ako nije prazan menja metod i url za PUT 
     method = `PUT`
     url = `http://localhost:14117/api/korisnik/${id}`
+    success = "izmena"
 
     fetch(url)
         .then(response => {
@@ -125,7 +121,7 @@ let submitBtn = document.querySelector("#form-submit-Btn")
                 return response.json()
                 })
                 .then(data => {
-                window.location.href = '../pregledKorisnika/pregledKorisnika.html'
+                window.location.href = `../pregledKorisnika/pregledKorisnika.html?response=${success}`
                 })
                 .catch(error => {
                 console.error('Error:', error.message)

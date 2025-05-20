@@ -8,7 +8,7 @@ $description-text: #555;
 $box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 $table-row-color: rgb(213, 239, 212);
 $table-h-color: rgb(194, 241, 193);
-$table-row-color-hover: rgb(179, 236, 177);
+$table-row-color-hover: rgb(235, 249, 235);
 
 * {
     margin: 0;
@@ -90,4 +90,15 @@ body {
     width:60%;
     margin: auto;
     text-align: center;
+}
+button{
+    padding:10px;
+    color: white;
+    background-color: green;
+    border-radius: 3px;
+    border: none;
+    box-shadow: 5px 5px 10px lightgrey;
+    &:hover{
+        background-color: rgb(10, 213, 10);
+    }
 }

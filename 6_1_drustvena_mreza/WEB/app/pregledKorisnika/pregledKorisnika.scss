@@ -1,5 +1,7 @@
 @use "../style";
-
+#sucess-msg{
+    visibility: hidden;
+}
 .user-data {
     margin: auto;
     border: 2px solid white;

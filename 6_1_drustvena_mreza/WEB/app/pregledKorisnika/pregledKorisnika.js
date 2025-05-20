@@ -10,16 +10,10 @@ class Korisnik {
         this.grupeKorisnika = grupeKorisnika
     }
 }
-class Grupa{
-    constructor(id, ime,datumOsnivanja){
-        this.id = id
-        this.ime = ime
-        this.datumOsnivanja = datumOsnivanja
-    }
-}
 
+const urlParams = new URLSearchParams(window.location.search)
+const response = urlParams.get('response') // Preuzimamo vrednost response parametra upita
 
-document.addEventListener('DOMContentLoaded', initializeKorisnike)
 
 function initializeKorisnike() {
     let korisnici = []
@@ -27,6 +21,7 @@ function initializeKorisnike() {
     korisnici = loadKorisnike()
     
     saveLocalStorage(korisnici)
+    showSuccess()
 }
 
 function saveLocalStorage(korisnici) {
@@ -95,3 +90,22 @@ let dodajBtn = document.querySelector("#dodajKorisnikaBtn")
 dodajBtn.addEventListener("click", function(event){
     window.location.href="../dodajIzmeniKorisnika/dodajIzmeniKorisnika.html"
 })
+
+function showSuccess() {
+    let successMsg = document.querySelector("#success-msg")
+    if (response==="upis"){
+        successMsg.textContent = "Korisnik je uspešno dodat"
+    }
+    if (response==="izmena"){
+        successMsg.textContent = "Korisnik je uspešno izmenjen"
+    }
+    successMsg.style.opacity = "1"
+    successMsg.style.color = "green"
+    successMsg.style.fontWeight = "bold"
+
+    setTimeout(() => {
+        successMsg.style.opacity = "0"
+    }, 3000)
+}
+
+document.addEventListener('DOMContentLoaded', initializeKorisnike)

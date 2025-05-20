@@ -74,6 +74,18 @@ body {
   text-align: center;
 }
 
+button {
+  padding: 10px;
+  color: white;
+  background-color: green;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 5px 5px 10px lightgrey;
+}
+button:hover {
+  background-color: rgb(10, 213, 10);
+}
+
 .form-container {
   text-align: left;
 }

@@ -74,6 +74,22 @@ body {
   text-align: center;
 }
 
+button {
+  padding: 10px;
+  color: white;
+  background-color: green;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 5px 5px 10px lightgrey;
+}
+button:hover {
+  background-color: rgb(10, 213, 10);
+}
+
+#sucess-msg {
+  visibility: hidden;
+}
+
 .user-data {
   margin: auto;
   border: 2px solid white;
@@ -89,7 +105,7 @@ body {
   padding: 10px;
 }
 .user-data tr:hover {
-  background-color: rgb(179, 236, 177);
+  background-color: rgb(235, 249, 235);
 }
 
 /*# sourceMappingURL=pregledKorisnika.css.map */

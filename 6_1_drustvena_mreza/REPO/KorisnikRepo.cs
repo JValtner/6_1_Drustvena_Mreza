@@ -8,7 +8,6 @@ namespace _6_1_drustvena_mreza.REPO
     {
         private const string putanjaKorisnik = "DATA/korisnici.csv";
         private const string putanjaClanstva = "DATA/clanstva.csv";
-        private const string putanjaGrupe = "DATA/grupe.csv";
         public static Dictionary<int, Korisnik> korisnikRepo { get; set; } 
 
         public KorisnikRepo()
@@ -67,7 +66,6 @@ namespace _6_1_drustvena_mreza.REPO
         {
             try
             {
-                // Save korisnici.csv
                 List<string> sadrzajKorisnici = new List<string>();
                 foreach (Korisnik k in korisnikRepo.Values)
                 {
@@ -121,6 +119,18 @@ namespace _6_1_drustvena_mreza.REPO
                 }
             }
             return null;
+        }
+        public List<Korisnik> NadjiKorisnike(int grupaId)
+        {
+            List<Korisnik> listaKorisnikaGrupe = new List<Korisnik>();
+            foreach (Korisnik korisnik in KorisnikRepo.korisnikRepo.Values)
+            {
+                if (korisnik.GrupeKorisnika.Any(g => g.Id == grupaId))
+                {
+                    listaKorisnikaGrupe.Add(korisnik);
+                }
+            }
+            return listaKorisnikaGrupe;
         }
     }
 }
