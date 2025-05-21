@@ -50,7 +50,8 @@ namespace _6_1_drustvena_mreza.REPO
                                     g = grupa;
                                 }
                             }
-                            k.GrupeKorisnika.Add(g);
+                            if (g != null) {k.GrupeKorisnika.Add(g);}
+                            
                         }
                     }
 
@@ -77,9 +78,18 @@ namespace _6_1_drustvena_mreza.REPO
                 List<string> sadrzajClanstva = new List<string>();
                 foreach (Korisnik k in korisnikRepo.Values)
                 {
+                    if (k?.GrupeKorisnika == null)
+                    {
+                    continue;
+                    }
+                        
                     foreach (Grupa g in k.GrupeKorisnika)
                     {
-                        sadrzajClanstva.Add($"{k.Id},{g.Id}");
+                        if (g != null && k.Id != null && g.Id != null)
+                        {
+                            sadrzajClanstva.Add($"{k.Id},{g.Id}");
+                        }
+                        
                     }
                 }
                 File.WriteAllLines(putanjaClanstva, sadrzajClanstva);
