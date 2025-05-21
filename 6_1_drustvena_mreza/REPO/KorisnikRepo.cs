@@ -50,7 +50,8 @@ namespace _6_1_drustvena_mreza.REPO
                                     g = grupa;
                                 }
                             }
-                            k.GrupeKorisnika.Add(g);
+                            if (g != null) {k.GrupeKorisnika.Add(g);}
+                            
                         }
                     }
 
