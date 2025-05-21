@@ -66,7 +66,7 @@ function createDataTable(grupe) {
             <td>${grupa.id}</td>         
             <td>${grupa.ime}</td>             
             <td>${formatDate(grupa.datumOsnivanja)}</td>
-            <td><button id="ObrisiGrupu">Obrisi</button></td>
+            <td><button id="ObrisiGrupu">Obrisi</button> <button id="prikaziKorisnike">Prikazi korisnike</button></td>
         `
         let button = row.querySelector("#ObrisiGrupu")
         button.addEventListener("click", function () {
@@ -89,6 +89,12 @@ function createDataTable(grupe) {
                     
             })
         })
+
+        let prikazBtn = row.querySelector("#prikaziKorisnike")
+        prikazBtn.addEventListener("click", function(){
+            window.location.href=`../pregledKorisnikaGrupe/pregledKorisnikaGrupe.html?grupaId=${grupa.id}&grupaIme=${grupa.ime}`
+        })
+
         tbody.appendChild(row)
     }
 }

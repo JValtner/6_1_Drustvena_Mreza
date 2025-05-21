@@ -122,10 +122,11 @@ namespace _6_1_drustvena_mreza.REPO
         }
         public List<Korisnik> NadjiKorisnike(int grupaId)
         {
+            Console.WriteLine(grupaId);
             List<Korisnik> listaKorisnikaGrupe = new List<Korisnik>();
             foreach (Korisnik korisnik in KorisnikRepo.korisnikRepo.Values)
             {
-                if (korisnik.GrupeKorisnika.Any(g => g.Id == grupaId))
+                if (korisnik.GrupeKorisnika.Any(g => g != null && g.Id == grupaId))
                 {
                     listaKorisnikaGrupe.Add(korisnik);
                 }

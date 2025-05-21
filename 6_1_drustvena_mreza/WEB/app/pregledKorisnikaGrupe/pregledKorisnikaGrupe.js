@@ -1,7 +1,6 @@
-
 'use strict'
 class Korisnik {
-    constructor(id, korisnickoIme, ime, prezime, datumRodjenja,grupeKorisnika) {
+    constructor(id, korisnickoIme, ime, prezime, datumRodjenja, grupeKorisnika) {
         this.id = id
         this.korisnickoIme = korisnickoIme
         this.ime = ime
@@ -20,14 +19,10 @@ class Grupa{
 
 const urlParams = new URLSearchParams(window.location.search)
 const grupaId = urlParams.get('grupaId') // Preuzimamo vrednost grupaId parametra upita
-
-function initializeKorisnike() {
-    
-    let korisniciGrupe = loadKorisnikeGrupe()
-}
+const grupaIme = urlParams.get('grupaIme')//Preuzimamo vrednost grupaime parametra upita
 
 function loadKorisnikeGrupe(){
-  fetch('http://localhost:14117/api/korisnik') 
+  fetch(`http://localhost:14117/api/groups/${grupaId}`) 
     .then(response => {
       if (!response.ok) {
         throw new Error('Request failed. Status: ' + response.status)
@@ -41,9 +36,17 @@ function loadKorisnikeGrupe(){
     })
 }
 function createDataTable(korisniciGrupe) {
+    let grupaNaziv = document.querySelector("#naziv-grupe")
+    grupaNaziv.textContent = grupaIme     // postavljanje teksta
+
     let container = document.querySelector(".main-content") 
+
+    if (!korisniciGrupe || korisniciGrupe.length === 0) {
+        container.innerHTML = `<p> U grupi ne postoji ni jedan korisnik</p>`
+        return    
+    }
+    
     container.innerHTML = `
-        <p> Korisnici grupe: </p>
         <th>
         <table class="user-data">
             <thead class="user-data-head">
@@ -59,7 +62,6 @@ function createDataTable(korisniciGrupe) {
             </tbody>
         </table>
     `
-
     const tbody = container.querySelector("#user-data-body")
 
     for (let korisnik of korisniciGrupe) {
@@ -70,24 +72,15 @@ function createDataTable(korisniciGrupe) {
             <td>${korisnik.ime}</td>
             <td>${korisnik.prezime}</td>
             <td>${formatDate(korisnik.datumRodjenja)}</td>
+            `
         tbody.appendChild(row)
     }
 }
+    
+
 function formatDate(isoDateString) {
     const date = new Date(isoDateString)
     return date.toLocaleDateString('sr-RS')
 }
 
-
-function showSuccess() {
-    let successMsg = document.querySelector("#success-msg")
-    successMsg.style.opacity = "1"
-    successMsg.style.color = "green"
-    successMsg.style.fontWeight = "bold"
-
-    setTimeout(() => {
-        successMsg.style.opacity = "0"
-    }, 3000)
-}
-
-document.addEventListener('DOMContentLoaded', initializeKorisnike)
+document.addEventListener('DOMContentLoaded', loadKorisnikeGrupe)
